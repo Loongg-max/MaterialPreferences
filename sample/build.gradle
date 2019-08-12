@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
+    //buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "com.yarolegovich.materialprefsample"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
         versionName "1.0"
@@ -20,8 +20,14 @@ android {
 }
 
 dependencies {
-    implementation "com.yarolegovich:mp:1.0.9"
-    implementation "com.yarolegovich:lovelyinput:1.0.9"
+    //implementation "com.yarolegovich:mp:1.0.9"
+    //implementation "com.yarolegovich:lovelyinput:1.0.9"
+    implementation project(':library')
+    implementation 'com.yarolegovich:lovely-dialog:1.1.0'
+    implementation ("com.pavelsikun:vintage-chroma:1.5"){
+        exclude group: 'com.android.support'
+    }
+
     implementation "com.android.support:appcompat-v7:${rootProject.supportLibVersion}"
     implementation "com.android.support:design:${rootProject.supportLibVersion}"
 }

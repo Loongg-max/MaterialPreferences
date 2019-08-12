@@ -17,6 +17,7 @@
         <com.yarolegovich.mp.MaterialChoicePreference
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/choice"
             app:mp_default_value="24 hours"
             app:mp_entry_values="@array/update_intervals"
             app:mp_key="@string/pkey_update_interval"

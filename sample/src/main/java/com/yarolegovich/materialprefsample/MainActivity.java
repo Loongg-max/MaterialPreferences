@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.yarolegovich.lovelyuserinput.LovelyInput;
 import com.yarolegovich.mp.io.MaterialPreferences;
 
 import java.util.HashMap;
@@ -79,6 +78,7 @@ SharedPreferences.OnSharedPreferenceChangeListener{
         return new LovelyInput.Builder()
                 .setKeyIconMappings(iconMappings)
                 .setTopColor(topColor)
+                .setVip(false)
                 .build();
     }
 }
