@@ -17,6 +17,7 @@ import static com.yarolegovich.mp.R.styleable.*;
 
 /**
  * Created by yarolegovich on 06.05.2016.
+ * <br>Edit by loongg-max on 19.08.12
  */
 public class MaterialMultiChoicePreference extends AbsMaterialListPreference<Set<String>> {
 
@@ -98,4 +99,13 @@ public class MaterialMultiChoicePreference extends AbsMaterialListPreference<Set
         }
         return result;
     }
+
+    /**
+     * Add by Loongg-max 19. 08. 11
+     * <br>增加了代码设置默认选中的项（entryValue数组的子集）
+     * */
+    public void setDefaultSelected(Set<String> defaultSelected){
+        this.defaultSelected = defaultSelected;
+    }
+
 }

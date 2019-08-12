@@ -6,6 +6,7 @@ import java.util.Set;
 
 /**
  * Created by yarolegovich on 05.05.2016.
+ * <br>Edit by loongg-max on 19.08.12
  */
 public interface UserInputModule {
 
@@ -22,6 +23,19 @@ public interface UserInputModule {
             CharSequence[] values,
             int selected,
             Listener<String> listener);
+    /**
+     * Add by Loongg-max 19.08.10
+     * <br>带vip功能的单选对话框
+     * */
+    void showSingleChoiceInputWithVip(
+            String key,
+            CharSequence title,
+            CharSequence[] displayItems,
+            CharSequence[] values,
+            boolean[] isNeedVip,
+            int selected,
+            Listener<String> listener);
+
 
     void showMultiChoiceInput(
             String key,

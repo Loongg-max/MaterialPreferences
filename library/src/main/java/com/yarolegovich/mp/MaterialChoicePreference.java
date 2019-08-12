@@ -41,13 +41,25 @@ public class MaterialChoicePreference extends AbsMaterialListPreference<String> 
         showNewValueIfNeeded(toRepresentation(getValue()));
     }
 
+
+    /**
+     * 换成了我自己写的带vip功能的
+     * */
     @Override
     public void onClick(View v) {
-        userInputModule.showSingleChoiceInput(
+        /*userInputModule.showSingleChoiceInput(
                 key, getTitle(), entries,
                 entryValues,
                 getItemPosition(getValue()),
-                this);
+                this);*/
+
+        userInputModule.showSingleChoiceInputWithVip(
+                key, getTitle(), entries,
+                entryValues,
+                isNeedVip,
+                getItemPosition(getValue()),
+                this
+        );
     }
 
     @Override

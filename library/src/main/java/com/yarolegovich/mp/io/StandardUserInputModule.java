@@ -23,6 +23,7 @@ import java.util.Set;
 
 /**
  * Created by yarolegovich on 06.05.2016.
+ * <br>Edit by loongg-max on 19.08.12
  */
 public class StandardUserInputModule implements UserInputModule {
 
@@ -84,6 +85,36 @@ public class StandardUserInputModule implements UserInputModule {
                         listener.onInput(selected);
                     }
                 })*/
+                .show();
+    }
+
+    /**
+     * Add by Loongg-max 19.08.10<br>
+     *
+     * <br>在默认标准用户输入模式中，没有实现vip的单选处理
+     * <br>这里是直接复制的默认代码<br>
+     * todo 以后可以用自定义view实现vip的处理
+     *
+     * */
+    public void showSingleChoiceInputWithVip(
+            String key,
+            CharSequence title,
+            CharSequence[] displayItems,
+            final CharSequence[] values,
+            boolean[] isNeedVip,
+            int selected,
+            final Listener<String> listener) {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setSingleChoiceItems(displayItems, selected, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String selected = values[which].toString();
+                        listener.onInput(selected);
+                        dialog.dismiss();
+                    }
+                })
+
                 .show();
     }
 
