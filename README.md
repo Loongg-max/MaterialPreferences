@@ -17,6 +17,30 @@ For [LovelyInput](#lovelyinput) you will also need this:
 compile 'com.yarolegovich:lovelyinput:1.0.9'
 ```
 
+## ADD<增加>
+
+1. MaterialChoicePreference和MaterialMultiChoicePreference的父类（AbsMaterialListPreference） 增加代码设置列表项功能（xml中两个必须至少设置一个）：
+````java
+setIsNeedVip(boolean[] isNeedVip); //可以不设置（默认都为false）
+setEntries(CharSequence[] entries); //等效于xml中的app:mp_entry_descriptions="@array/some_string_array"
+setEntryValues(CharSequence[] entryValues); //等效于xml中的app:mp_entry_values="@array/some_string_array"
+````
+2. MaterialMultiChoicePreference 增加代码设置默认选中项：
+````java
+setDefaultSelected(Set<String> defaultSelected); //默认选中项
+````
+3. AbsMaterialCheckablePreference中的setValue()方法中增加改变状态的代码：
+````java
+checkableWidget.setChecked(value);  //改变控件点击状态
+````
+4. 配合修改后的LovelyInputModle使用，实现vip功能逻辑
+````
+implementation 'com.mymp:MaterialPreferences:1.0.0' 
+````
+
+
+
+
 ## Wiki 
 Sample project that shows how to work with different library features is available as [sample module](https://github.com/yarolegovich/MaterialPreferences/tree/master/sample).
 You can also [download APK](https://github.com/yarolegovich/MaterialPreferences/raw/master/sample/sample.apk) and play with it. 
