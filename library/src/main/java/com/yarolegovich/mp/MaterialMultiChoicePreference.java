@@ -66,7 +66,7 @@ public class MaterialMultiChoicePreference extends AbsMaterialListPreference<Set
     @Override
     public void onClick(View v) {
         userInputModule.showMultiChoiceInput(
-                key, getTitle(), entries, entryValues,
+                key, getTitle(), entryNames, entryValues,
                 itemStates(getValue()),
                 this);
     }
@@ -94,7 +94,7 @@ public class MaterialMultiChoicePreference extends AbsMaterialListPreference<Set
         List<CharSequence> result = new ArrayList<>();
         for (int i = 0; i < entryValues.length; i++) {
             if (neededValues.contains(entryValues[i].toString())) {
-                result.add(entries[i].toString());
+                result.add(entryNames[i].toString());
             }
         }
         return result;

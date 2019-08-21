@@ -5,20 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import com.pavelsikun.vintagechroma.ChromaDialog;
 import com.pavelsikun.vintagechroma.IndicatorMode;
 import com.pavelsikun.vintagechroma.OnColorSelectedListener;
 import com.pavelsikun.vintagechroma.colormode.ColorMode;
 import com.yarolegovich.mp.R;
-import com.yarolegovich.mp.util.Utils;
+import com.yarolegovich.mp.view.ListEntry;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -89,27 +88,30 @@ public class StandardUserInputModule implements UserInputModule {
     }
 
     /**
-     * Add by Loongg-max 19.08.10<br>
+     * Add by Loongg-max 19.08.18<br>
      *
      * <br>在默认标准用户输入模式中，没有实现vip的单选处理
      * <br>这里是直接复制的默认代码<br>
      * todo 以后可以用自定义view实现vip的处理
      *
      * */
+    @Override
     public void showSingleChoiceInputWithVip(
             String key,
             CharSequence title,
-            CharSequence[] displayItems,
-            final CharSequence[] values,
+            CharSequence[] entryNames,
+            final CharSequence[] entryValues,
+            int[] entryColors,
             boolean[] isNeedVip,
+            boolean[] isNew,
             int selected,
             final Listener<String> listener) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
-                .setSingleChoiceItems(displayItems, selected, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(entryNames, selected, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String selected = values[which].toString();
+                        String selected = entryValues[which].toString();
                         listener.onInput(selected);
                         dialog.dismiss();
                     }
@@ -117,6 +119,47 @@ public class StandardUserInputModule implements UserInputModule {
 
                 .show();
     }
+
+
+    /**
+     * Add by Loongg-max 19.08.18<br>
+     *
+     * <br>在默认标准用户输入模式中，没有实现vip的单选处理
+     * <br>这里是直接复制的默认代码<br>
+     * todo 以后可以用自定义view实现vip的处理
+     *
+     * */
+    @Override
+    public void showSingleChoiceInputWithVip(
+            String key,
+            CharSequence title,
+            final List<ListEntry> entries,
+            int selected,
+            final Listener<String> listener){
+
+        //根据entry实例得到entryName数组
+        CharSequence[] entryNames = new CharSequence[entries.size()];
+        for(int i = 0; i < entries.size(); i++){
+            entryNames[i] = entries.get(i).getEntryName();
+        }
+
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setSingleChoiceItems(entryNames, selected, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String selected = entries.get(which).getEntryValue().toString();
+                        listener.onInput(selected);
+                        dialog.dismiss();
+                    }
+                })
+
+                .show();
+
+    }
+
+
+
 
     @Override
     public void showMultiChoiceInput(

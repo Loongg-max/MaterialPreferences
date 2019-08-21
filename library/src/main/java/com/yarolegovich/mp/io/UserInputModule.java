@@ -2,6 +2,9 @@ package com.yarolegovich.mp.io;
 
 import android.content.Context;
 
+import com.yarolegovich.mp.view.ListEntry;
+
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -24,15 +27,28 @@ public interface UserInputModule {
             int selected,
             Listener<String> listener);
     /**
-     * Add by Loongg-max 19.08.10
-     * <br>带vip功能的单选对话框
+     * Add by Loongg-max 19.08.18
+     * <br>带vip、new以及自定义颜色 功能的单选对话框
      * */
     void showSingleChoiceInputWithVip(
             String key,
             CharSequence title,
-            CharSequence[] displayItems,
-            CharSequence[] values,
+            CharSequence[] entryNames,
+            CharSequence[] entryValues,
+            int[] entryColors,
             boolean[] isNeedVip,
+            boolean[] isNew,
+            int selected,
+            Listener<String> listener);
+
+    /**
+     * Add by Loongg-max 19.08.18
+     * <br>带vip、new以及自定义颜色 功能的单选对话框
+     * */
+    void showSingleChoiceInputWithVip(
+            String key,
+            CharSequence title,
+            List<ListEntry> entries,
             int selected,
             Listener<String> listener);
 

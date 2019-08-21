@@ -48,25 +48,37 @@ public class MaterialChoicePreference extends AbsMaterialListPreference<String> 
     @Override
     public void onClick(View v) {
         /*userInputModule.showSingleChoiceInput(
-                key, getTitle(), entries,
+                key, getTitle(), entryNames,
                 entryValues,
                 getItemPosition(getValue()),
                 this);*/
 
-        userInputModule.showSingleChoiceInputWithVip(
-                key, getTitle(), entries,
-                entryValues,
-                isNeedVip,
-                getItemPosition(getValue()),
-                this
-        );
+        //如果没有设置Entry，或者size大小为0，调用默认
+        if(null == entries || entries.size() == 0){
+            userInputModule.showSingleChoiceInputWithVip(
+                    key, getTitle(), entryNames,
+                    entryValues,
+                    entryColors,
+                    isNeedVip,
+                    isNew,
+                    getItemPosition(getValue()),
+                    this
+            );
+        }else {
+            userInputModule.showSingleChoiceInputWithVip(
+                    key, getTitle(),
+                    entries,
+                    getItemPosition(getValue()),
+                    this
+            );
+        }
     }
 
     @Override
     protected CharSequence toRepresentation(String value) {
         for (int i = 0; i < entryValues.length; i++) {
             if (entryValues[i].equals(value)) {
-                return entries[i];
+                return entryNames[i];
             }
         }
         return null;
