@@ -17,13 +17,22 @@ For [LovelyInput](#lovelyinput) you will also need this:
 compile 'com.yarolegovich:lovelyinput:1.0.9'
 ```
 
-## ADD<增加>
+## ADD<增加新功能>
 
 1. MaterialChoicePreference和MaterialMultiChoicePreference的父类（AbsMaterialListPreference） 增加代码设置列表项功能（xml中两个必须至少设置一个）：
+
+1.1 方式一：xml中设置entryNames entryValues（必须）
+
+1.2 方式二：代码设置各分项（可选，设置后优先级大于一）
 ````java
+setIsNew(boolean[] isNew); //可以不设置，默认都为false
 setIsNeedVip(boolean[] isNeedVip); //可以不设置（默认都为false）
-setEntries(CharSequence[] entries); //等效于xml中的app:mp_entry_descriptions="@array/some_string_array"
+setEntryNames(CharSequence[] entryNames); //等效于xml中的app:mp_entry_descriptions="@array/some_string_array"
 setEntryValues(CharSequence[] entryValues); //等效于xml中的app:mp_entry_values="@array/some_string_array"
+````
+1.3 方式三：代码设置实例（可选，优先级大于一和二，不管顺序如何）
+````java
+setEntries(List<ListEntry> entries); //如果不设置，默认就使用xml中设置的
 ````
 2. MaterialMultiChoicePreference 增加代码设置默认选中项：
 ````java
@@ -37,7 +46,7 @@ checkableWidget.setChecked(value);  //改变控件点击状态
 ````
 implementation 'com.mymp:MaterialPreferences:1.0.0' 
 ````
-
+5. 增加各setter的相应getter
 
 
 
