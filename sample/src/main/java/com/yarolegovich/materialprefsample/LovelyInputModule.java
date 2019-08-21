@@ -23,6 +23,7 @@ import com.yarolegovich.lovelydialog.AbsLovelyDialog;
 import com.yarolegovich.lovelydialog.LovelyChoiceDialog;
 import com.yarolegovich.lovelydialog.LovelyTextInputDialog;
 import com.yarolegovich.mp.io.StandardUserInputModule;
+import com.yarolegovich.mp.view.ListEntry;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -66,7 +67,8 @@ public class LovelyInputModule extends StandardUserInputModule {
             CharSequence defaultValue,
             final Listener<String> listener) {
         if(!isVip){
-            standardInit(new LovelyTextInputDialog(context)
+            standardInit(new LovelyTextInputDialog(context, R.style.MyRoundDialog)
+                    .setRadius(20)
                     .setNegativeButton(android.R.string.no, null)
                     .setHint("在这里输入你想展示的内容")
                     .setInitialInput(defaultValue.toString())
@@ -92,7 +94,8 @@ public class LovelyInputModule extends StandardUserInputModule {
             final CharSequence[] values,
             int selected,
             final Listener<String> listener) {
-        standardInit(new LovelyChoiceDialog(context)
+        standardInit(new LovelyChoiceDialog(context, R.style.MyRoundDialog)
+                .setRadius(20)
                 .setItems(displayItems, new LovelyChoiceDialog.OnItemSelectedListener<CharSequence>() {
                     @Override
                     public void onItemSelected(int position, CharSequence item) {
@@ -110,9 +113,11 @@ public class LovelyInputModule extends StandardUserInputModule {
      *
      * @param key preference的key值
      * @param title 标题
-     * @param displayItems 选项名称数组
-     * @param values 选项的值数组
+     * @param entryNames 选项名称数组
+     * @param entryValues 选项的值数组
+     * @param entryColors 选项文字的颜色
      * @param isNeedVip 每一项是否需要vip的boolean数组，不设置的话默认都是false
+     * @param isNew 每一项是否是新加的boolean数组，不设置的话默认都是false
      * @param selected 默认选中项的position
      * @param listener 监听器
      *
@@ -121,38 +126,77 @@ public class LovelyInputModule extends StandardUserInputModule {
     public void showSingleChoiceInputWithVip(
             String key,
             CharSequence title,
-            CharSequence[] displayItems,
-            final CharSequence[] values,
+            CharSequence[] entryNames,
+            final CharSequence[] entryValues,
+            int[] entryColors,
             boolean[] isNeedVip,
+            boolean[] isNew,
             int selected,
             final Listener<String> listener) {
-
-        ArrayList<Entry> entries = new ArrayList<>();
-        for(int i = 0; i < displayItems.length; i++){
+        List<ListEntry> entries = new ArrayList<>();
+        for(int i = 0; i < entryNames.length; i++){
             if(null == isNeedVip || isNeedVip.length == 0){
-                entries.add(new Entry(displayItems[i], values[i], false));
+                entries.add(new ListEntry(entryNames[i], entryValues[i], 0, false, false));
             }else {
-                entries.add(new Entry(displayItems[i], values[i], isNeedVip[i]));
+                entries.add(new ListEntry(entryNames[i], entryValues[i], 0, isNeedVip[i], false));
             }
         }
-
-        standardInit(new LovelyChoiceDialog(context)
-                .setItems(new MyAdapter(context, selected, entries), new LovelyChoiceDialog.OnItemSelectedListener<Entry>() {
+        standardInit(new LovelyChoiceDialog(context, R.style.MyRoundDialog)
+                .setRadius(20)
+                .setItems(new MyAdapter(context, selected, entries), new LovelyChoiceDialog.OnItemSelectedListener<ListEntry>() {
                     @Override
-                    public void onItemSelected(int position, Entry item) {
-                        Log.e("xxxxxxxxxxxx", "position==" + position + "    Entry==" + item.toString());
+                    public void onItemSelected(int position, ListEntry item) {
+                        Log.e("LovelyInputModule", "position=" + position + "\nListEntry==" + item.toString());
 
                         if(!isVip && item.isNeedVip()){
                             //显示需要vip权限
                             Toast.makeText(context, "该内容为会员专享，请先成为会员", Toast.LENGTH_SHORT).show();
                         }else {
-                            listener.onInput(values[position].toString());
+                            listener.onInput(entryValues[position].toString());
                         }
 
                     }
                 }), key, title)
                 .show();
     }
+
+
+    /**
+     * add by Loongg-max 19.08.10
+     * <p>说明：
+     * @param key preference的key值
+     * @param title 标题
+     * @param entries 选项条目的实例数组
+     * @param selected 默认选中项的position
+     * @param listener 监听器
+     *
+     * */
+    @Override
+    public void showSingleChoiceInputWithVip(
+            String key,
+            CharSequence title,
+            final List<ListEntry> entries,
+            int selected,
+            final Listener<String> listener) {
+        standardInit(new LovelyChoiceDialog(context, R.style.MyRoundDialog)
+                .setRadius(20)
+                .setItems(new MyAdapter(context, selected, entries), new LovelyChoiceDialog.OnItemSelectedListener<ListEntry>() {
+                    @Override
+                    public void onItemSelected(int position, ListEntry item) {
+                        Log.e("LovelyInputModule", "position=" + position + "\nListEntry==" + item.toString());
+
+                        if(!isVip && item.isNeedVip()){
+                            //显示需要vip权限
+                            Toast.makeText(context, "该内容为会员专享，请先成为会员", Toast.LENGTH_SHORT).show();
+                        }else {
+                            listener.onInput(entries.get(position).getEntryValue().toString());
+                        }
+
+                    }
+                }), key, title)
+                .show();
+    }
+
 
 
 
@@ -164,7 +208,8 @@ public class LovelyInputModule extends StandardUserInputModule {
             final CharSequence[] values,
             boolean[] itemStates,
             final Listener<Set<String>> listener) {
-        standardInit(new LovelyChoiceDialog(context)
+        standardInit(new LovelyChoiceDialog(context, R.style.MyRoundDialog)
+                .setRadius(40)
                 .setItemsMultiChoice(displayItems, itemStates, new LovelyChoiceDialog.OnItemsSelectedListener<CharSequence>() {
                     @Override
                     public void onItemsSelected(List<Integer> positions, List<CharSequence> items) {
@@ -264,19 +309,19 @@ public class LovelyInputModule extends StandardUserInputModule {
      * 实现如果某项需要vip则在某项后面显示vip图标
      *
      */
-    public class MyAdapter extends ArrayAdapter<Entry>{
+    public class MyAdapter extends ArrayAdapter<ListEntry>{
 
-        private List<Entry> entries;
+        private List<ListEntry> entries;
         private Context context;
         private int selected;
 
         /**
          * @param context context
          * @param selected 默认选中项（本来是传item layout 的sourceId）
-         * @param objects 选项的对象数组 entries
+         * @param objects 选项的对象数组 entryNames
          *
          * */
-        public MyAdapter(Context context, int selected, List<Entry> objects) {
+        public MyAdapter(Context context, int selected, List<ListEntry> objects) {
             super(context, R.layout.dialog_singlechoice_item, objects);
             this.context = context;
             this.entries = objects;
@@ -292,6 +337,7 @@ public class LovelyInputModule extends StandardUserInputModule {
                 convertView = LayoutInflater.from(context).inflate(R.layout.dialog_singlechoice_item, parent, false);
                 viewHolder.radioButton = convertView.findViewById(R.id.radioButton);
                 viewHolder.textView_name = convertView.findViewById(R.id.textView_name);
+                viewHolder.imageView_new = convertView.findViewById(R.id.imageView_new);
                 viewHolder.imageView_vip = convertView.findViewById(R.id.imageView_vip);
                 convertView.setTag(viewHolder);
 
@@ -300,23 +346,31 @@ public class LovelyInputModule extends StandardUserInputModule {
             }
 
             viewHolder.textView_name.setText(entries.get(position).getEntryName());
+            //是否选中
             if(position == selected){
                 viewHolder.radioButton.setChecked(true);
             }else {
                 viewHolder.radioButton.setChecked(false);
             }
+            //是否是新加的
+            if(entries.get(position).isNew()){
+                viewHolder.imageView_new.setVisibility(View.VISIBLE);
+            }else {
+                viewHolder.imageView_new.setVisibility(View.GONE);
+            }
+            //是否需要vip权限
             if(entries.get(position).isNeedVip()){
-                viewHolder.imageView_vip.setImageResource(R.drawable.ic_vip);
+                viewHolder.imageView_vip.setVisibility(View.VISIBLE);
             }else {
                 viewHolder.imageView_vip.setVisibility(View.GONE);
             }
-            Log.e("getView", "position==" + position + "  isNeedVip==  " + entries.get(position).isNeedVip());
             return convertView;
         }
 
         class ViewHolder{
             RadioButton radioButton;
             TextView textView_name;
+            ImageView imageView_new;
             ImageView imageView_vip;
         }
 

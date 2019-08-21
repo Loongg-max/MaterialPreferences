@@ -23,5 +23,11 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_new"
+        android:id="@+id/imageView_new"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_vip"
         android:id="@+id/imageView_vip"/>
 </LinearLayout>

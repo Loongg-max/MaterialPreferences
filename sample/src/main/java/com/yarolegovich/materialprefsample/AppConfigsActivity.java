@@ -1,12 +1,14 @@
 package com.yarolegovich.materialprefsample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.yarolegovich.mp.MaterialChoicePreference;
 import com.yarolegovich.mp.MaterialPreferenceScreen;
+import com.yarolegovich.mp.view.ListEntry;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by yarolegovich on 15.05.2016.
@@ -29,12 +31,27 @@ public class AppConfigsActivity extends ToolbarActivity {
         //用代码设置参数
         MaterialChoicePreference materialChoicePreference = findViewById(R.id.choice);
 
-        CharSequence[] entries = {"第一个", "第二个", "第三个"};
+
+
+        //------------------方式一，直接在xml中设置（必须设置）--------------------------
+
+
+
+        //------------- 方式二 (设置方式二后，一失效)------------------------
+        CharSequence[] entryName = {"第一个", "第二个", "第三个"};
         CharSequence[] entryValue = {"1", "2", "3"};
         boolean[] isNeedVip = {false, true, true};
 
-        materialChoicePreference.setEntries(entries);
+        materialChoicePreference.setEntryNames(entryName);
         materialChoicePreference.setEntryValues(entryValue);
         materialChoicePreference.setIsNeedVip(isNeedVip);
+
+
+        //--------------方式三 (设置方式三后，一二失效)-----------------------------------
+        List<ListEntry> entries = new ArrayList<>();
+        entries.add(new ListEntry("xxxxx", "xxx", 0, false, false));
+        entries.add(new ListEntry("sssssss", "sss", 0, false, true));
+        entries.add(new ListEntry("yyyyy", "yyy", 0, true, true));
+        materialChoicePreference.setEntries(entries);
     }
 }
